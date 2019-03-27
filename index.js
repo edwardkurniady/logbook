@@ -86,6 +86,17 @@ server.route(
   }
 );
 
+server.route(
+  {
+    method: 'GET',
+    path: '/',
+    handler : async (request, h) => {
+      return 'TESTING';
+      // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
+    }
+  }
+);
+
 const start =  async function() {
     try {
         await server.start();
