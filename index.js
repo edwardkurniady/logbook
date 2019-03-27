@@ -7,7 +7,7 @@ const Promise = require('bluebird');
 
 const server = Hapi.server({
     host: '0.0.0.0',
-    port: 1311,
+    port:1311,
 });
 
 const req = request.defaults({
@@ -78,17 +78,9 @@ const postLB = async (data) => {
 server.route(
   {
     method: 'POST',
-    path: '/connect',
+    path: '/',
     handler : async (request, h) => {
       return request.payload;
-      // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
-    }
-  },
-  {
-    method: 'GET',
-    path: '/connect',
-    handler : (request, h) => {
-      return 'pepega';
       // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
     }
   }
