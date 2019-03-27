@@ -6,8 +6,8 @@ const crypto = require('crypto');
 const Promise = require('bluebird');
 
 const server = Hapi.server({
-    host: 'localhost',
-    port: 7000,
+    host: '0.0.0.0',
+    port: 1311,
 });
 
 const req = request.defaults({
