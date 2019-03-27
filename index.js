@@ -79,7 +79,8 @@ server.route({
   method: 'POST',
   path: '/connect',
   handler : async (request, h) => {
-    return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
+    return request.payload;
+    // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
   }
 });
 
