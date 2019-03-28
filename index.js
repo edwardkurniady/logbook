@@ -93,7 +93,7 @@ function handleEvent(event) {
 server.route(
   {
     method: 'POST',
-    path: '/',
+    path: '/webhook',
     handler : async (request, h) => {
       return handleEvent(request.payload);
       // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
