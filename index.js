@@ -93,9 +93,9 @@ function handleEvent(event) {
 server.route(
   {
     method: 'POST',
-    path: '/webhook',
-    handler : async (request, h) => {
-      return handleEvent(request.payload);
+    path: '/',
+    handler : (erq, ers) => {
+      Promise.all(erq.body.events.map(handleEvent)).then((result) => res.json(result));
       // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
     }
   }
