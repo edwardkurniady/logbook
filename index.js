@@ -7,7 +7,7 @@ const Promise = require('bluebird');
 
 const server = Hapi.server({
     host: '0.0.0.0',
-    port: 443,
+    port: 8000,
 });
 
 const req = request.defaults({
