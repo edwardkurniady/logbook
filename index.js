@@ -4,12 +4,16 @@ const request = require('request');
 const cheerio = require('cheerio');
 const crypto = require('crypto');
 const Promise = require('bluebird');
+const line = require('@line/bot-sdk');
 
 const server = Hapi.server({
     host: '0.0.0.0',
     port: 8000,
 });
-
+const client = new line.Client({
+  channelAccessToken: 'RMwJeWl2fU0JpVmGb4wK7/qGhojRei2ggQCpYrINEXCmB5maff03CDiiXiY+k7qI0NWkVb1SEx1Rb7pggRtT3EZ7IA+RKzTlP0Ps/3JsBgk53QtKadLssdqcBLFO1CSFOtp4RzSFr/FMdADO7xUOwgdB04t89/1O/w1cDnyilFU=',
+  channelSecret: 'f38cf099e61aaaf892d0fe5a35e7c03d',
+});
 const req = request.defaults({
   baseUrl: 'http://industry.socs.binus.ac.id/learning-plan',
   followAllRedirects: true,
@@ -75,12 +79,23 @@ const postLB = async (data) => {
   return (await submitLB(data, jar)).statusCode;
 }
 
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    return Promise.resolve(null);
+  }
+
+  return client.replyMessage(event.replyToken, {
+    type: 'text',
+    text: event.message.text
+  });
+}
+
 server.route(
   {
     method: 'POST',
     path: '/',
     handler : async (request, h) => {
-      return request.payload;
+      return handleEvent(request.payload);
       // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
     }
   }
