@@ -95,8 +95,9 @@ server.route(
     method: 'POST',
     path: '/',
     handler : (erq, ers) => {
-      Promise.all(erq.body.events.map(handleEvent)).then((result) => res.json(result));
-      // return await postLB(request.payload) === 200 ? 'success!' : 'failed lol';
+      return erq.payload.events.map(event => {
+        return handleEvent(event);
+      });
     }
   }
 );
