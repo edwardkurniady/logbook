@@ -6,7 +6,7 @@ const {
 } = require('../../config/header');
 
 module.exports = {
-  handleEvent: (req) => {
+  handleEvent: (req, res) => {
     return req.payload.events.map(event => {
       if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);
