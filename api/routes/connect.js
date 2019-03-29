@@ -8,11 +8,11 @@ module.exports = [
       handler: controller.defaultPage,
     },
   },
-  // {
-  //   method: 'POST',
-  //   path: '/',
-  //   config: {
-  //     handler: controller.handleEvent,
-  //   },
-  // },
+  {
+    method: 'POST',
+    path: '/',
+    config: {
+      handler: controller.handleEvent,
+    },
+  },
 ];

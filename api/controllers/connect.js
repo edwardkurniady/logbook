@@ -6,7 +6,7 @@ const {
 } = require('../../config/header');
 
 module.exports = {
-  handleEvent: (req, res) => {
+  handleEvent: (req) => {
     return req.payload.events.map(event => {
       if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);
@@ -20,6 +20,7 @@ module.exports = {
       });
     });    
   },
+
   defaultPage: () => {
     return 'This is default page';
   },
