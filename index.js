@@ -3,7 +3,7 @@ const {
 } = require('./config/const');
 const {
   Hapi,
-} = require('./config/header');
+} = require('./config/headers');
 const routes = require('./api/routes/connect');
 
 const start =  async function() {
