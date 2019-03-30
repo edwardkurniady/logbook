@@ -33,6 +33,11 @@ module.exports = {
   },
 
   defaultPage: () => {
-    return 'This is default page';
+    const client = new line.Client(LINE_CLIENT_CONFIG);
+    
+    return client.replyMessage(event.replyToken, {
+      type: 'you are gay',
+      text: event.message.text
+    });
   },
 };
