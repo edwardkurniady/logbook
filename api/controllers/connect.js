@@ -3,10 +3,11 @@ const {
 } = require('../../config/const');
 const {
   line,
-} = require('../../config/header');
+} = require('../../config/headers');
 
 module.exports = {
   handleEvent: (req) => {
+    console.log(req);
     return req.payload.events.map(event => {
       if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);
