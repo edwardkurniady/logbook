@@ -7,7 +7,8 @@ const {
 
 module.exports = {
   handleEvent: (req) => {
-    console.log(req);
+    console.log(req.headers);
+    console.log(req.payload);
     return req.payload.events.map(event => {
       if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);
