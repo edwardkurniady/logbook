@@ -19,8 +19,9 @@ const isSignatureValid = (req) => {
 
 async function getLoginStatus(lineId) {
   const logbook = new Logbook();
-  return await logbook.checkLoginStatus(lineId) ? 'You are logged in' :
-                                                  'You are not logged in';
+  const loginStatus = await logbook.checkLoginStatus(lineId);
+  return loginStatus === 'false' ?  'You are not logged in.' :
+                                    'You are logged in as ' + loginStatus;
 }
 
 async function login(lineId, msgArr) {

@@ -30,14 +30,18 @@ class Logbook {
       const path = './api/storage/' + lineId;
       const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
       console.log(jar);
-      const response = await this.get('/', {jar});
+      const response = await this.get('/profile', {jar});
       const $ = cheerio.load(response.body);
-      console.log(response.body);
-      return $('title').text() === 'Login' ? false : true;
+      if($('title').text() === 'Login') return 'false';
+      let name = '';
+      let nim = '';
+      $('.twelve.wide.column.profile').find('row').each((i, elm) => {
+        if(i === 0) nim = $(elm).text().trim();
+        if(i === 1) name = $(elm).text().trim();
+      });
+      return name + ' - ' + nim;
     }catch(e) {
-      console.log('----------');
-      console.log(e);
-      return false;
+      return 'false';
     }
   }
 
@@ -45,7 +49,7 @@ class Logbook {
     const path = './api/storage/' + lineId;
     if(!fs.existsSync(path)) fs.closeSync(fs.openSync(path, 'w'));
 
-    const jar = this.request.jar(new FCS(cookiepath));
+    const jar = this.request.jar(new FCS(path));
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
     const form = {};
