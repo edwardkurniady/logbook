@@ -49,8 +49,11 @@ class Logbook {
     form.username = username;
     form.password = password;
   
-    const response2 = await this.post('/auth/login', {form, jar});
-    console.log(response2.body);
+    const loginResp = await this.post('/auth/login', {form, jar});
+    const $login = cheerio.load(loginResp.body);
+
+    
+    console.log($login('.ui.red').length);
 
     fs.writeFileSync('./api/storage/' + lineId + '.json', jar);
   }
