@@ -56,6 +56,7 @@ class Logbook {
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
 
+    console.log(jar);
     const path = './api/storage/' + lineId + '.txt';
     fs.writeFileSync(path, JSON.stringify(jar), 'utf-8');
     return 'Login Successful!';
