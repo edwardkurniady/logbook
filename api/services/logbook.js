@@ -26,7 +26,7 @@ class Logbook {
 
   async checkLoginStatus(lineId) {
     try {
-      const jar = fs.readFileSync('./api/storage/' + lineId + '.json');
+      const jar = require('../storage/' + lineId + '.json');
       console.log(jar);
       console.log(typeof jar);
       const response = await this.get('/', {jar});
