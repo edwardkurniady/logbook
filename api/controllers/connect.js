@@ -8,37 +8,49 @@ const {
   channelSecret,
 } = require('../../config/const');
 
+const Logbook = require('../services/Logbook');
+
 const isSignatureValid = (req) => {
   return req.headers['x-line-signature'] === crypto.createHmac('sha256', channelSecret)
                                                 .update(JSON.stringify(req.payload))
                                                 .digest('base64');
 };
 
-module.exports = {
-  handleEvent: (req) => {
-    if(!isSignatureValid(req)) return; 
-    console.log(req.headers);
-    console.log(JSON.stringify(req.payload));
-    return req.payload.events.map(event => {
-      if (event.type !== 'message' || event.message.type !== 'text') {
-        return Promise.resolve(null);
-      }
+const getLoginStatus = (lineId) => {
+  const logbook = new Logbook();
+  return logbook.checkLoginStatus(lineId) ? 'You are logged in' :
+                                            'You are not logged in';
+};
 
-      const client = new line.Client(LINE_CLIENT_CONFIG);
-    
-      return client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: event.message.text
-      });
-    });    
-  },
+const handleEvent = (req) => {
+  if(!isSignatureValid(req)) return;
+  return req.payload.events.map(event => {
+    if (event.type !== 'message' || event.message.type !== 'text') {
+      return Promise.resolve(null);
+    }
 
-  defaultPage: () => {
+    const lineId = event.source.userId;
+    const msgArr = event.message.text.split('\n');
+    const replyMessage = {
+      type: 'text',
+    };
+
+    switch(msgArr[0].toLowerCase()) {
+      case '--help' :
+        replyMessage.text = '';
+        break;
+      case '--login' :
+        replyMessage.text = getLoginStatus(lineId);
+        break;
+      case 'login' :
+        break;
+    }
+
     const client = new line.Client(LINE_CLIENT_CONFIG);
-    
-    return client.replyMessage(event.replyToken, {
-      type: 'you are gay',
-      text: event.message.text
-    });
-  },
+    return client.replyMessage(event.replyToken, replyMessage);
+  });
+};
+
+module.exports = {
+  handleEvent,
 };

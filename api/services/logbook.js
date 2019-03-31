@@ -5,7 +5,9 @@ const {
   fs,
 } = require('../../config/headers');
 
-class logbook {
+const storage = require('../storage');
+
+class Logbook {
   constructor() {
     this.request = request.defaults({
       baseUrl: 'http://industry.socs.binus.ac.id/learning-plan',
@@ -24,8 +26,25 @@ class logbook {
     this.get = Promise.promisify(this.request.get);
   }
 
-  async checkLoginStatus() {
-    
+  async checkLoginStatus(lineId) {
+    const jar = storage[lineId + '.json'];
+    return jar ? true : false;
+  }
+
+  async login(username, password, lineId) {
+    const jar = this.request.jar();
+    const response = await this.get('/auth/login', {jar});
+    const $ = cheerio.load(response.body);
+    const form = {};
+    $('input').each((i, el) => {
+      form[$(el).attr('name')] = $(el).val();
+    });
+    form.username = username;
+    form.password = password;
+  
+    await this.post('/auth/login', {form, jar});
+
+    fs.writeFileSync('../storage/' + lineId + '.json', jar);
   }
 }
 // const request = require('request');
@@ -89,3 +108,5 @@ class logbook {
 //   await login(username, password, jar);
 //   return (await submitLB(data, jar)).statusCode;
 // }
+
+module.exports = Logbook;

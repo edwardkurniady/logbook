@@ -5,7 +5,9 @@ module.exports = [
     method: 'GET',
     path: '/',
     config: {
-      handler: controller.defaultPage,
+      handler: () => {
+        return 'testing';
+      },
     },
   },
   {
