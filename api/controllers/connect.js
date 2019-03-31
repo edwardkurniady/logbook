@@ -8,7 +8,7 @@ const {
   channelSecret,
 } = require('../../config/const');
 
-const Logbook = require('../services/Logbook');
+const Logbook = require('../services/logbook');
 
 const isSignatureValid = (req) => {
   return req.headers['x-line-signature'] === crypto.createHmac('sha256', channelSecret)

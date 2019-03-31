@@ -5,8 +5,6 @@ const {
   fs,
 } = require('../../config/headers');
 
-const storage = require('../storage');
-
 class Logbook {
   constructor() {
     this.request = request.defaults({
@@ -27,7 +25,8 @@ class Logbook {
   }
 
   async checkLoginStatus(lineId) {
-    const jar = storage[lineId + '.json'];
+    const jar = fs.readFileSync('../storage/' + lineId + '.json');
+    console.log(jar);
     return jar ? true : false;
   }
 
