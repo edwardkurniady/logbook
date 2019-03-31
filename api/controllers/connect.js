@@ -1,11 +1,12 @@
 const {
-  LINE_CLIENT_CONFIG,
-  channelSecret
-} = require('../../config/const');
-const {
   line,
   crypto,
 } = require('../../config/headers');
+
+const {
+  LINE_CLIENT_CONFIG,
+  channelSecret,
+} = require('../../config/const');
 
 const isSignatureValid = (req) => {
   return req.headers['x-line-signature'] === crypto.createHmac('sha256', channelSecret)
@@ -17,7 +18,7 @@ module.exports = {
   handleEvent: (req) => {
     if(!isSignatureValid(req)) return; 
     console.log(req.headers);
-    console.log(req.payload);
+    console.log(JSON.stringify(req.payload));
     return req.payload.events.map(event => {
       if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);

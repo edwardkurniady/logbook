@@ -1,3 +1,33 @@
+const {
+  request,
+  cheerio,
+  Promise,
+  fs,
+} = require('../../config/headers');
+
+class logbook {
+  constructor() {
+    this.request = request.defaults({
+      baseUrl: 'http://industry.socs.binus.ac.id/learning-plan',
+      followAllRedirects: true,
+      json: true,
+      headers: {      
+        'Accept': 'text/html,application/xhtml+xml,application/' +
+                  'xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+                      'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+                      'Chrome/63.0.3239.84 ' +
+                      'Safari/537.36',
+      }
+    });
+    this.post = Promise.promisify(this.request.post);
+    this.get = Promise.promisify(this.request.get);
+  }
+
+  async checkLoginStatus() {
+    
+  }
+}
 // const request = require('request');
 // const cheerio = require('cheerio');
 // const Promise = require('bluebird');

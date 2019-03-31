@@ -18,4 +18,4 @@ module.exports = {
   LINE_CLIENT_CONFIG,
   channelAccessToken,
   channelSecret,
-}
+};
