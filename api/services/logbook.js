@@ -25,9 +25,14 @@ class Logbook {
   }
 
   async checkLoginStatus(lineId) {
-    const jar = fs.readFileSync('../storage/' + lineId + '.json');
-    console.log(jar);
-    return jar ? true : false;
+    try {
+      const jar = fs.readFileSync('../storage/' + lineId + '.json');
+      const response = await get('/learning-plan/', {jar});
+      console.log(response);
+      return true;
+    }catch(e) {
+      return false;
+    }
   }
 
   async login(username, password, lineId) {
