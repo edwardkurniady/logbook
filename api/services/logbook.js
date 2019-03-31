@@ -38,7 +38,7 @@ class Logbook {
     }
   }
 
-  async login(username, password, lineId) {
+  async login(lineId, username, password) {
     const jar = this.request.jar();
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
@@ -49,7 +49,8 @@ class Logbook {
     form.username = username;
     form.password = password;
   
-    await this.post('/auth/login', {form, jar});
+    const response = await this.post('/auth/login', {form, jar});
+    console.log(response.body);
 
     fs.writeFileSync('./api/storage/' + lineId + '.json', jar);
   }

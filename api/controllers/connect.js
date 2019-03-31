@@ -23,6 +23,13 @@ async function getLoginStatus(lineId) {
                                                   'You are not logged in';
 }
 
+async function login(lineId, msgArr) {
+  if(msgArr[1].length !== 10) return 'wrong username format! Please try again.'
+  const logbook = new Logbook();
+  await logbook.login(lineId, msgArr[1], msgArr[2]);
+  return '';
+}
+
 async function handleEvent(req) {
   if(!isSignatureValid(req)) return;
   const event = req.payload.events[0];
@@ -38,6 +45,7 @@ async function handleEvent(req) {
   const action = msgArr[0].toLowerCase();
 
   if(action === '--login') replyMessage.text = await getLoginStatus(lineId);
+  if(action === 'login') replyMessage.text = await login(lineId, msgArr);
 
   const client = new line.Client(LINE_CLIENT_CONFIG);
   return client.replyMessage(event.replyToken, replyMessage);
