@@ -16,9 +16,9 @@ const isSignatureValid = (req) => {
                                                 .digest('base64');
 };
 
-const getLoginStatus = (lineId) => {
+const getLoginStatus = async (lineId) => {
   const logbook = new Logbook();
-  return logbook.checkLoginStatus(lineId) ? 'You are logged in' :
+  return await logbook.checkLoginStatus(lineId) ? 'You are logged in' :
                                             'You are not logged in';
 };
 
