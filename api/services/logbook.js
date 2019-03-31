@@ -27,11 +27,12 @@ class Logbook {
   async checkLoginStatus(lineId) {
     try {
       const jar = fs.readFileSync('./api/storage/' + lineId + '.json');
+      console.log(jar);
+      console.log(typeof jar);
       const response = await this.get('/', {jar});
-      console.log(response);
-      return true;
+      const $ = cheerio.load(response.body);
+      return $('title').text() === 'Login' ? false : true;
     }catch(e) {
-      console.log(e);
       return false;
     }
   }
