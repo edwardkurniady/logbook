@@ -16,13 +16,14 @@ const isSignatureValid = (req) => {
                                                 .digest('base64');
 };
 
-const getLoginStatus = async (lineId) => {
+
+async function getLoginStatus(lineId) {
   const logbook = new Logbook();
   return await logbook.checkLoginStatus(lineId) ? 'You are logged in' :
                                                   'You are not logged in';
-};
+}
 
-const handleEvent = (req) => {
+async function handleEvent(req) {
   if(!isSignatureValid(req)) return;
   return req.payload.events.map(event => {
     if (event.type !== 'message' || event.message.type !== 'text') {
@@ -40,7 +41,7 @@ const handleEvent = (req) => {
         replyMessage.text = '';
         break;
       case '--login' :
-        replyMessage.text = getLoginStatus(lineId);
+        replyMessage.text = await getLoginStatus(lineId);
         break;
       case 'login' :
         break;
@@ -49,7 +50,7 @@ const handleEvent = (req) => {
     const client = new line.Client(LINE_CLIENT_CONFIG);
     return client.replyMessage(event.replyToken, replyMessage);
   });
-};
+}
 
 module.exports = {
   handleEvent,
