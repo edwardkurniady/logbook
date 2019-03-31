@@ -26,7 +26,7 @@ class Logbook {
 
   async checkLoginStatus(lineId) {
     try {
-      const jar = fs.readFileSync('../storage/' + lineId + '.json');
+      const jar = fs.readFileSync('./api/storage/' + lineId + '.json');
       const response = await this.get('/', {jar});
       console.log(response);
       return true;
@@ -49,7 +49,7 @@ class Logbook {
   
     await this.post('/auth/login', {form, jar});
 
-    fs.writeFileSync('../storage/' + lineId + '.json', jar);
+    fs.writeFileSync('./api/storage/' + lineId + '.json', jar);
   }
 }
 // const request = require('request');
