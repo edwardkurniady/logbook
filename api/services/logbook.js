@@ -8,7 +8,6 @@ const {
 class Logbook {
   constructor() {
     this.request = request.defaults({
-      baseUrl: 'http://industry.socs.binus.ac.id/learning-plan',
       followAllRedirects: true,
       json: true,
       headers: {      
@@ -28,7 +27,7 @@ class Logbook {
     try {
       const path = './api/storage/' + lineId + '.txt';
       const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
-      const response = await this.get('/', {jar});
+      const response = await this.get('http://industry.socs.binus.ac.id/learning-plan/', {jar});
       const $ = cheerio.load(response.body);
       console.log(response.body);
       return $('title').text() === 'Login' ? false : true;
@@ -41,7 +40,7 @@ class Logbook {
 
   async login(lineId, username, password) {
     const jar = this.request.jar();
-    const response = await this.get('/auth/login', {jar});
+    const response = await this.get('http://industry.socs.binus.ac.id/learning-plan/auth/login', {jar});
     const $ = cheerio.load(response.body);
     const form = {};
     $('input').each((i, el) => {
@@ -50,7 +49,7 @@ class Logbook {
     form.username = username;
     form.password = password;
   
-    const loginResp = await this.post('/auth/login', {form, jar});
+    const loginResp = await this.post('http://industry.socs.binus.ac.id/learning-plan/auth/login', {form, jar});
     const $login = cheerio.load(loginResp.body);
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
