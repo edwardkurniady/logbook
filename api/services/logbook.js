@@ -31,6 +31,7 @@ class Logbook {
       console.log(response);
       return true;
     }catch(e) {
+      console.log(e);
       return false;
     }
   }
