@@ -26,7 +26,7 @@ class Logbook {
 
   async checkLoginStatus(lineId) {
     try {
-      const path = './api/storage/' + lineId;
+      const path = './api/storage/' + lineId + '.txt';
       const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
       console.log(jar);
       console.log(typeof jar);
@@ -53,9 +53,10 @@ class Logbook {
     const loginResp = await this.post('/auth/login', {form, jar});
     const $login = cheerio.load(loginResp.body);
 
-    if($login('.ui.red').length === 1) return $login('.ui.red').text();
+    if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
 
-    fs.writeFileSync('./api/storage/' + lineId, JSON.stringify(jar));
+    const path = './api/storage/' + lineId + '.txt';
+    fs.writeFileSync(path, JSON.stringify(jar), 'utf-8');
     return 'Login Successful!';
   }
 }
