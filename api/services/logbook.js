@@ -28,7 +28,8 @@ class Logbook {
   async checkLoginStatus(lineId) {
     try {
       const path = './api/storage/' + lineId;
-      const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
+      // const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
+      const jar = this.request.jar(new FCS(path));
       console.log(jar);
       const response = await this.get('/profile', {jar});
       const $ = cheerio.load(response.body);
