@@ -33,6 +33,7 @@ class Logbook {
       const $ = cheerio.load(response.body);
       return $('title').text() === 'Login' ? false : true;
     }catch(e) {
+      console.log(e);
       return false;
     }
   }
