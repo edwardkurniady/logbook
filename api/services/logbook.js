@@ -26,7 +26,8 @@ class Logbook {
 
   async checkLoginStatus(lineId) {
     try {
-      const jar = JSON.parse(require('../storage/' + lineId + '.json'));
+      const path = '../storage/' + lineId + '.json';
+      const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
       console.log(jar);
       console.log(typeof jar);
       const response = await this.get('/', {jar});
@@ -55,6 +56,7 @@ class Logbook {
     if($login('.ui.red').length === 1) return $login('.ui.red').text();
 
     fs.writeFileSync('./api/storage/' + lineId + '.json', JSON.stringify(jar));
+    return 'Login Successful!';
   }
 }
 // const request = require('request');

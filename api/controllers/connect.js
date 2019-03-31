@@ -24,10 +24,9 @@ async function getLoginStatus(lineId) {
 }
 
 async function login(lineId, msgArr) {
-  if(msgArr[1].length !== 10) return 'wrong username format! Please try again.'
+  if(msgArr[1].length !== 10) return 'Wrong username format! Please try again.'
   const logbook = new Logbook();
-  await logbook.login(lineId, msgArr[1], msgArr[2]);
-  return '';
+  return await logbook.login(lineId, msgArr[1], msgArr[2]);
 }
 
 async function handleEvent(req) {
