@@ -28,10 +28,9 @@ class Logbook {
     try {
       const path = './api/storage/' + lineId + '.txt';
       const jar = JSON.parse(fs.readFileSync(path, 'utf-8'));
-      console.log(jar);
-      console.log(typeof jar);
       const response = await this.get('/', {jar});
       const $ = cheerio.load(response.body);
+      console.log(response.body);
       return $('title').text() === 'Login' ? false : true;
     }catch(e) {
       console.log('----------');
