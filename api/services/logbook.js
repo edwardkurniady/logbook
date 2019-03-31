@@ -49,8 +49,8 @@ class Logbook {
     form.username = username;
     form.password = password;
   
-    const response = await this.post('/auth/login', {form, jar});
-    console.log(response.body);
+    const response2 = await this.post('/auth/login', {form, jar});
+    console.log(response2.body);
 
     fs.writeFileSync('./api/storage/' + lineId + '.json', jar);
   }
