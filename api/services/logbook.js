@@ -44,6 +44,7 @@ class Logbook {
       });
       return name + ' - ' + nim;
     }catch(e) {
+      console.log(e);
       return 'false';
     }
   }
