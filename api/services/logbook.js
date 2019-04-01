@@ -54,7 +54,7 @@ class Logbook {
   }
 
   async login(lineId, username, password) {
-    const path = './api/storage/' + lineId + '.json';
+    const path = '../storage/' + lineId + '.json';
     const jar = this.request.jar(new FCS(path));
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
