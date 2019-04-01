@@ -6,5 +6,5 @@ module.exports = {
   request : require('request'),
   cheerio : require('cheerio'),
   Promise : require('bluebird'),
-  FCS     : require('tough-cookie-filestore'),
+  FCS     : require('tough-cookie-store'),
 };
