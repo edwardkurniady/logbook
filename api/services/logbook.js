@@ -27,7 +27,8 @@ class Logbook {
 
   async checkLoginStatus(lineId) {
     try {
-      const setCookie = fs.readFileSync('./api/storage/' + lineId, 'utf-8');
+      const path = './api/storage/' + lineId + '.json';
+      const setCookie = JSON.parse(fs.readFileSync(path, 'utf-8'));
       const jar = this.request.jar();
       const cookie = setCookie instanceof Array ? setCookie.map(c => this.request.cookie(c)) :
                                                   [this.request.cookie(setCookie)];
@@ -52,7 +53,7 @@ class Logbook {
   }
 
   async login(lineId, username, password) {
-    const path = './api/storage/' + lineId;
+    const path = './api/storage/' + lineId + '.json';
     if(!fs.existsSync(path)) fs.closeSync(fs.openSync(path, 'w'));
 
     const jar = this.request.jar();
@@ -69,7 +70,7 @@ class Logbook {
     const $login = cheerio.load(loginResp.body);
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
-    
+
     fs.writeFileSync(path, JSON.stringify(loginResp.headers['set-cookie']));
     return 'Login Successful!';
   }
