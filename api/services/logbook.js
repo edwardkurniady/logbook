@@ -49,8 +49,7 @@ class Logbook {
     const path = './api/storage/' + lineId;
     if(!fs.existsSync(path)) fs.closeSync(fs.openSync(path, 'w'));
 
-    console.log('asdasd');
-    const jar = this.request.jar(new FCS(path));
+    const jar = this.request.jar();
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
     const form = {};
@@ -66,6 +65,7 @@ class Logbook {
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
     
     console.log(jar);
+    console.log(loginResp.headers);
     return 'Login Successful!';
   }
 }
