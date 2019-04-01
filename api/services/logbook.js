@@ -49,6 +49,7 @@ class Logbook {
     const path = './api/storage/' + lineId;
     if(!fs.existsSync(path)) fs.closeSync(fs.openSync(path, 'w'));
 
+    console.log('asdasd');
     const jar = this.request.jar(new FCS(path));
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
