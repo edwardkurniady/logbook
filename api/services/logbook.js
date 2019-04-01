@@ -27,8 +27,9 @@ class Logbook {
 
   async checkLoginStatus(lineId) {
     try {
-      const path = './api/storage/' + lineId;
-      const jar = this.request.jar().setCookie(fs.readFileSync(path, 'utf-8'));
+      const setCookie = fs.readFileSync('./api/storage/' + lineId, 'utf-8');
+      const jar = setCookie instanceof Array ?  setCookie.map(c => this.request.cookie(c)) :
+                                                [this.request.cookie(setCookie)];
       console.log(jar);
       const response = await this.get('/profile', {jar});
       const $ = cheerio.load(response.body);
@@ -64,8 +65,7 @@ class Logbook {
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
     
-    console.log(jar);
-    console.log(loginResp.headers);
+    fs.writeFileSync(path, JSON.stringify(loginResp.headers['set-cookie']));
     return 'Login Successful!';
   }
 }
