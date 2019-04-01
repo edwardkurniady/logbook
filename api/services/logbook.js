@@ -28,12 +28,11 @@ class Logbook {
   async checkLoginStatus(lineId) {
     try {
       const path = './api/storage/' + lineId + '.json';
-      const setCookie = JSON.parse(fs.readFileSync(path, 'utf-8'));
-      console.log(setCookie);
-      // const jar = this.request.jar();
-      // const cookie = setCookie instanceof Array ? setCookie.map(sc => this.request.cookie(sc)) :
-      //                                             [this.request.cookie(setCookie)];
-      // jar.setCookie(cookie, 'http://industry.socs.binus.ac.id/learning-plan');
+      const setCookie = JSON.parse(fs.readFileSync(path, 'utf-8')).headers;
+      const jar = this.request.jar();
+      const cookie = setCookie instanceof Array ? setCookie.map(sc => this.request.cookie(sc)) :
+                                                  [this.request.cookie(setCookie)];
+      jar.setCookie(cookie, '/');
       console.log(jar);
       console.log((await this.get('/', {jar})).body);
 
@@ -55,7 +54,7 @@ class Logbook {
 
   async login(lineId, username, password) {
     const path = '../storage/' + lineId + '.json';
-    const jar = this.request.jar(new FCS(path));
+    const jar = this.request.jar();
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
     const form = {};
@@ -69,6 +68,10 @@ class Logbook {
     const $login = cheerio.load(loginResp.body);
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
+
+    fs.writeFileSync(path, JSON.stringify({
+      headers: loginResp.headers["set-cookie"],
+    }));
     return 'Login Successful!';
   }
 }
