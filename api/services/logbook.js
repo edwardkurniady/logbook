@@ -28,10 +28,10 @@ class Logbook {
   async checkLoginStatus(lineId) {
     try {
       const setCookie = fs.readFileSync('./api/storage/' + lineId, 'utf-8');
+      const jar = this.request.jar();
       const cookie = setCookie instanceof Array ? setCookie.map(c => this.request.cookie(c)) :
                                                   [this.request.cookie(setCookie)];
-      console.log(cookie);
-      const jar = this.request.jar().add(cookie);
+      jar.add(cookie);
       // .setCookie(cookie, 'http://industry.socs.binus.ac.id/learning-plan');
       console.log(jar);
       console.log((await this.get('/', {jar})).body);
