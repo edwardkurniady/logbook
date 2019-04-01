@@ -31,8 +31,7 @@ class Logbook {
       const jar = this.request.jar();
       const cookie = setCookie instanceof Array ? setCookie.map(c => this.request.cookie(c)) :
                                                   [this.request.cookie(setCookie)];
-      jar.add(cookie);
-      // .setCookie(cookie, 'http://industry.socs.binus.ac.id/learning-plan');
+      jar.setCookie(cookie, 'http://industry.socs.binus.ac.id/learning-plan');
       console.log(jar);
       console.log((await this.get('/', {jar})).body);
 
