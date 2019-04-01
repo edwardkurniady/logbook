@@ -28,9 +28,10 @@ class Logbook {
   async checkLoginStatus(lineId) {
     try {
       const setCookie = fs.readFileSync('./api/storage/' + lineId, 'utf-8');
-      const cookie = setCookie instanceof Array ?  setCookie.map(c => this.request.cookie(c)) :
-                                                [this.request.cookie(setCookie)];
+      const cookie = setCookie instanceof Array ? setCookie.map(c => this.request.cookie(c)) :
+                                                  [this.request.cookie(setCookie)];
       const jar = this.request.jar().setCookie(cookie, 'http://industry.socs.binus.ac.id/learning-plan');
+      console.log(jar);
       console.log((await this.get('/', {jar})).body);
 
       const response = await this.get('/profile', {jar});
