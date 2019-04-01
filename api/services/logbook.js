@@ -28,9 +28,9 @@ class Logbook {
   async checkLoginStatus(lineId) {
     try {
       const path = './api/storage/' + lineId + '.json';
-      const setCookie = JSON.parse(fs.readFileSync(path, 'utf-8'));
+      const setCookie = JSON.parse(fs.readFileSync(path, 'utf-8')).headers;
       const jar = this.request.jar();
-      const cookie = setCookie instanceof Array ? setCookie.map(c => this.request.cookie(c)) :
+      const cookie = setCookie instanceof Array ? setCookie.map(sc => this.request.cookie(sc)) :
                                                   [this.request.cookie(setCookie)];
       jar.setCookie(cookie, 'http://industry.socs.binus.ac.id/learning-plan');
       console.log(jar);
@@ -54,8 +54,6 @@ class Logbook {
 
   async login(lineId, username, password) {
     const path = './api/storage/' + lineId + '.json';
-    if(!fs.existsSync(path)) fs.closeSync(fs.openSync(path, 'w'));
-
     const jar = this.request.jar();
     const response = await this.get('/auth/login', {jar});
     const $ = cheerio.load(response.body);
@@ -70,8 +68,9 @@ class Logbook {
     const $login = cheerio.load(loginResp.body);
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
-
-    fs.writeFileSync(path, JSON.stringify(loginResp.headers['set-cookie']));
+    fs.writeFileSync(path, JSON.stringify({
+      headers: loginResp.headers['set-cookie'],
+    }));
     return 'Login Successful!';
   }
 }
