@@ -8,10 +8,10 @@ async function getLoginStatus(lineId) {
   const loginStatus = await logbook.checkLoginStatus(lineId);
   let replyMessage = ''
   if(loginStatus === 'false') {
-    replyMessage = 'You are not logged in. You can login ' + message.loginHow;
+    replyMessage = 'You are not logged in. You can login' + message.loginHow;
   }else {
     replyMessage =  'You are logged in as ' + loginStatus + 
-                    '. To login with a different account, please do so ' + message.loginHow;
+                    '. To login with a different account, please do so' + message.loginHow;
   }
   return replyMessage;
 }
