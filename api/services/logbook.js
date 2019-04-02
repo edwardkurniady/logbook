@@ -2,50 +2,40 @@ const {
   request,
   cheerio,
   Promise,
-  fs,
-  FCS,
 } = require('../../config/headers');
+const {
+  baseUrl,
+  REQUEST_CONFIG,
+} = require('../../config/const');
+const cookieHandler = require('../../lib/cookieHandler')
 
 class Logbook {
   constructor() {
-    this.request = request.defaults({
-      baseUrl: 'http://industry.socs.binus.ac.id/learning-plan',
-      followAllRedirects: true,
-      json: true,
-      headers: {      
-        'Accept': 'text/html,application/xhtml+xml,application/' +
-                  'xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
-                      'AppleWebKit/537.36 (KHTML, like Gecko) ' +
-                      'Chrome/63.0.3239.84 ' +
-                      'Safari/537.36',
-      }
-    });
+    this.request = request.defaults(REQUEST_CONFIG);
     this.post = Promise.promisify(this.request.post);
     this.get = Promise.promisify(this.request.get);
   }
 
   async checkLoginStatus(lineId) {
     try {
-      const path = './api/storage/' + lineId + '.json';
-      const setCookie = JSON.parse(fs.readFileSync(path, 'utf-8')).headers;
       const jar = this.request.jar();
-      const cookie = setCookie instanceof Array ? setCookie.map(sc => this.request.cookie(sc)) :
-                                                  [this.request.cookie(setCookie)];
-      jar.setCookie(cookie, '/');
-      console.log(jar);
-      console.log((await this.get('/', {jar})).body);
+      jar.getCookies(baseUrl);
+      cookieHandler.loadCookie(lineId, jar);
 
-      const response = await this.get('/profile', {jar});
+      const response = await this.get('/profile', { jar });
       const $ = cheerio.load(response.body);
       if($('title').text() === 'Login') return 'false';
-      let name = '';
-      let nim = '';
-      $('.twelve.wide.column.profile').find('row').each((i, elm) => {
-        if(i === 0) nim = $(elm).text().trim();
-        if(i === 1) name = $(elm).text().trim();
+      const creds = {
+        name: '',
+        nim: '',
+      }
+      $('.twelve.wide.column.profile').find('.row').each((i, elm) => {
+        const value = $(elm).find('h2').text().split('\n')[0].trim();
+        if(i === 0) creds.nim = value;
+        if(i === 1) creds.name = value;
       });
-      return name + ' - ' + nim;
+
+      return creds.name + ' - ' + creds.nim;
     }catch(e) {
       console.log(e);
       return 'false';
@@ -53,25 +43,23 @@ class Logbook {
   }
 
   async login(lineId, username, password) {
-    const path = '../storage/' + lineId + '.json';
     const jar = this.request.jar();
-    const response = await this.get('/auth/login', {jar});
+    const response = await this.get('/auth/login', { jar });
     const $ = cheerio.load(response.body);
     const form = {};
-    $('input').each((i, el) => {
+    $('input').each((_, el) => {
       form[$(el).attr('name')] = $(el).val();
     });
     form.username = username;
     form.password = password;
   
-    const loginResp = await this.post('/auth/login', {form, jar});
+    const loginResp = await this.post('/auth/login', { form, jar });
     const $login = cheerio.load(loginResp.body);
 
     if($login('.ui.red').length === 1) return $login('.ui.red').text().trim();
 
-    fs.writeFileSync(path, JSON.stringify({
-      headers: loginResp.headers["set-cookie"],
-    }));
+    cookieHandler.saveCookie(lineId, loginResp.headers['set-cookie']);
+
     return 'Login Successful!';
   }
 }

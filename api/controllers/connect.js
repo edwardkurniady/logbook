@@ -1,27 +1,19 @@
-const {
-  line,
-  crypto,
-} = require('../../config/headers');
-
-const {
-  LINE_CLIENT_CONFIG,
-  channelSecret,
-} = require('../../config/const');
-
+const { line } = require('../../config/headers');
+const { LINE_CLIENT_CONFIG, message } = require('../../config/const');
+const { isSignatureValid } = require('../../lib/validator')
 const Logbook = require('../services/logbook');
-
-const isSignatureValid = (req) => {
-  return req.headers['x-line-signature'] === crypto.createHmac('sha256', channelSecret)
-                                                .update(JSON.stringify(req.payload))
-                                                .digest('base64');
-};
-
 
 async function getLoginStatus(lineId) {
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
-  return loginStatus === 'false' ?  'You are not logged in.' :
-                                    'You are logged in as ' + loginStatus;
+  let replyMessage = ''
+  if(loginStatus === 'false') {
+    replyMessage = 'You are not logged in. You can login ' + message.loginHow;
+  }else {
+    replyMessage =  'You are logged in as ' + loginStatus + 
+                    '. To login with a different account, please do so ' + message.loginHow;
+  }
+  return replyMessage;
 }
 
 async function login(lineId, msgArr) {
@@ -31,7 +23,7 @@ async function login(lineId, msgArr) {
 }
 
 async function handleEvent(req) {
-  if(!isSignatureValid(req)) return;
+  if(!isSignatureValid(req.headers['x-line-signature'])) return;
   const event = req.payload.events[0];
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve(null);
