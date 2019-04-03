@@ -74,10 +74,7 @@ module.exports = {
     const event = req.payload.events[0];
   
     const lineId = event.source.userId;
-    const msgArr = event.message.text.split('\n').filter(msg => {
-      if(msg.trim()) return msg.trim();
-    });
-    console.log(msgArr);
+    const msgArr = event.message.text.split('\n').map(msg => msg.trim()).filter(msg => msg);
     const replyMessage = {
       type: 'text',
     };
