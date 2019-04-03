@@ -6,7 +6,7 @@ const Logbook = require('../services/logbook');
 async function getLoginStatus(lineId) {
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
-  return loginStatus === 'false' ?  message.notLoggedin : 
+  return loginStatus === 'false' ?  message.notLoggedIn : 
                                     'You are logged in as ' + loginStatus + '. ' + message.reLogin;
 }
 
