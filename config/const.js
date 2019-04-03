@@ -36,13 +36,16 @@ const format = {
 
 const message = {
   notLoggedIn: 'You are not logged in. You can login by sending a message with the following format:' + format.login,
-  reLogin: 'You can login with a different account by resending the login message with different credentials.',
-  help: 'LBM8EZ reads your message and acts according to it. Therefore, your message needs to be in the correct format. ' +
+  reLogin: 'You can login with a different account by resending the login message with different credentials. Format:' + format.login,
+  help: 'Logbook Made Easy is a Line Messaging API that helps binusian fill their logbook. ' +
+        'To do so, LBM8EZ needs your login credentials. But don\'t worry, LBM8EZ doens\'t store your username or password. ' +
+        'What it does store however, is your login session which will expire in \u00B12 hours. Hence you need to relogin every once in a while. ' + 
+        'LBM8EZ reads your message and acts according to it. Therefore, your message needs to be in the correct format. ' +
         'To know what the accepted format is, choose from the quick menu the action you want to perform. ' +
-        'In general the message structure you should send is:\nACTION\nDATA',
+        'In general the message format you should send is:\nACTION\nDATA',
   lbNotLoggedIn: 'You are not logged in. Please login first.',
   lbNotFilled: 'You can submit today\'s logbook by sending a message with the following format:' + format.logbook,
-  lbRefill: 'You can change today\'s logbook content by sending the logbook message with different data.',
+  lbRefill: 'You can change today\'s logbook content by sending the logbook message with different data. Format:' + format.logbook,
 }
 
 module.exports = {
