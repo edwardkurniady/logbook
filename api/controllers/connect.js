@@ -75,6 +75,7 @@ module.exports = {
   
     const lineId = event.source.userId;
     const msgArr = event.message.text.split('\n').filter(msg => msg.trim());
+    console.log(msgArr);
     const replyMessage = {
       type: 'text',
     };
