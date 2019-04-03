@@ -31,7 +31,7 @@ const REQUEST_CONFIG = {
 
 const format = {
   login: '\nlogin\nUSERNAME\nPASSWORD',
-  logbook: '\nlogbook\nCLOCK IN\n CLOCK OUT\nACTIVITY\nDescription',
+  logbook: '\nlogbook\nCLOCK IN\nCLOCK OUT\nACTIVITY\nDESCRIPTION',
 }
 
 const message = {
