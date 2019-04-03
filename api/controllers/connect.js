@@ -11,8 +11,8 @@ async function getLoginStatus(lineId) {
 }
 
 async function login(lineId, msgArr) {
-  if(msgArr.length !== 3) return 'Wrong message format!'
-  if(msgArr[1].length !== 10 || !Number(msgArr[1])) return 'Wrong username format!'
+  if(msgArr.length !== 3) return 'Wrong message format!';
+  if(msgArr[1].length !== 10 || !Number(msgArr[1])) return 'Wrong username format!';
   const logbook = new Logbook();
   return await logbook.login(lineId, msgArr[1], msgArr[2]);
 }
@@ -27,7 +27,7 @@ async function getLogbookStatus(lineId) {
 }
 
 async function submitLogbook(lineId, msgArr) {
-  if(msgArr.length < 5) return 'Wrong message format!'
+  if(msgArr.length < 5) return 'Wrong message format!';
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
   if(loginStatus === 'false') return message.lbNotLoggedIn;
@@ -39,9 +39,26 @@ async function submitLogbook(lineId, msgArr) {
   }
   for(let i = 4; i < msgArr.length; i++) {
     data.description += msgArr[i];
+    if(i !== msgArr.length - 1) data.description += '\n';
   }
   await logbook.submitLogbook(lineId, data);
-  return 'Submit Logbook Successful!';
+  return 'Submit logbook successful!';
+}
+
+async function plusUltra(lineId, msgArr) {
+  if(msgArr.length < 7) return 'Wrong message format!';
+  if(msgArr[1].length !== 10 || !Number(msgArr[1])) return 'Wrong username format!';
+  const keys = ['username', 'password', 'clock-in', 'clock-out', 'activity', 'description'];
+  const data = {};
+  for(let i = 1; i < msgArr.length; i++) {
+    keys.length > 0 ? data[keys.shift()] = msgArr[i] :
+                      data.description += '\n' + msgArr[i];
+  }
+  const logbook = new Logbook();
+  const loginResp = await logbook.login(lineId, data.username, data.password);
+  if(loginResp !== 'Successful login!') return loginResp;
+  await logbook.submitLogbook(lineId, data);
+  return 'Plus Ultra!';
 }
 
 function isRequestValid(req) {
@@ -51,27 +68,27 @@ function isRequestValid(req) {
   return true;
 }
 
-async function handleEvent(req) {
-  if(!isRequestValid(req)) return Promise.resolve(null);
-  const event = req.payload.events[0];
-
-  const lineId = event.source.userId;
-  const msgArr = event.message.text.split('\n').filter(msg => msg);
-  const replyMessage = {
-    type: 'text',
-  };
-  const action = msgArr[0].toLowerCase();
-
-  if(action === '--login') replyMessage.text = await getLoginStatus(lineId);
-  if(action === 'login') replyMessage.text = await login(lineId, msgArr);
-  if(action === '--logbook') replyMessage.text = await getLogbookStatus(lineId);
-  if(action === 'logbook') replyMessage.text = await submitLogbook(lineId, msgArr);
-  if(action === '--help') replyMessage.text = message.help;
-
-  const client = new line.Client(LINE_CLIENT_CONFIG);
-  return client.replyMessage(event.replyToken, replyMessage);
-}
-
 module.exports = {
-  handleEvent,
+  handleEvent: async(req) => {
+    if(!isRequestValid(req)) return Promise.resolve(null);
+    const event = req.payload.events[0];
+  
+    const lineId = event.source.userId;
+    const msgArr = event.message.text.split('\n').filter(msg => msg);
+    const replyMessage = {
+      type: 'text',
+    };
+    const action = msgArr[0].toLowerCase();
+  
+    if(action === '--login') replyMessage.text = await getLoginStatus(lineId);
+    if(action === 'login') replyMessage.text = await login(lineId, msgArr);
+    if(action === '--logbook') replyMessage.text = await getLogbookStatus(lineId);
+    if(action === 'logbook') replyMessage.text = await submitLogbook(lineId, msgArr);
+    if(action === '--oneforall') replyMessage.text = message.oneForAll;
+    if(action === 'oneforall') replyMessage.text = await plusUltra(lineId, msgArr);
+    if(action === '--help') replyMessage.text = message.help;
+  
+    const client = new line.Client(LINE_CLIENT_CONFIG);
+    return client.replyMessage(event.replyToken, replyMessage);
+  },
 };
