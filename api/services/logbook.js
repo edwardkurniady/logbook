@@ -40,7 +40,7 @@ class Logbook {
     if(status.indexOf('already') < 0) return status;
     let log = '';
     $('.compact').find('tr').each((_, tr) => {
-      td = $(tr).children();
+      const td = $(tr).children();
       log += '\n' + td.first().text() + ': ' + td.last().text();
     });
     return status + log;
