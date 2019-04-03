@@ -18,7 +18,7 @@ async function login(lineId, msgArr) {
 }
 
 async function handleEvent(req) {
-  if(!isSignatureValid(req.headers['x-line-signature'], req.payload)) return;
+  if(!isSignatureValid(req.headers['x-line-signature'], req.payload)) return Promise.resolve(null);
   const event = req.payload.events[0];
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve(null);

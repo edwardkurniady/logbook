@@ -37,7 +37,6 @@ class Logbook {
 
       return creds.name + ' - ' + creds.nim;
     }catch(e) {
-      console.log(e);
       return 'false';
     }
   }
