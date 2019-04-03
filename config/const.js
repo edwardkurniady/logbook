@@ -46,7 +46,7 @@ const message = {
         'In general the message format you should send is:' + format.general,
   lbNotLoggedIn: 'You are not logged in. Please login first.',
   lbNotFilled: 'You can submit today\'s logbook by sending a message with the following format:' + format.logbook,
-  oneForAll: 'Login, Submit Logbook.. Send ONE message to do them ALL with... ONE FOR ALL!' + format.oneForAll,
+  oneForAll: 'Login, submit logbook, send ONE message to do them ALL with.. ONE FOR ALL!' + format.oneForAll,
 }
 
 module.exports = {
