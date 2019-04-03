@@ -7,7 +7,7 @@ async function getLoginStatus(lineId) {
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
   return loginStatus === 'false' ?  message.notLoggedIn : 
-                                    'You are logged in as ' + loginStatus + '. ';
+                                    'You are logged in as:\n' + loginStatus;
 }
 
 async function login(lineId, msgArr) {
@@ -38,7 +38,7 @@ async function submitLogbook(lineId, msgArr) {
     description: '',
   }
   for(let i = 4; i < msgArr.length; i++) {
-    description += msgArr[i];
+    data.description += msgArr[i];
   }
   await logbook.submitLogbook(lineId, data);
   return 'Submit Logbook Successful!';
@@ -54,10 +54,9 @@ function isRequestValid(req) {
 async function handleEvent(req) {
   if(!isRequestValid(req)) return Promise.resolve(null);
   const event = req.payload.events[0];
-  console.log(event.message.text);
+
   const lineId = event.source.userId;
-  const msgArr = event.message.text.split('\n');
-  console.log(msgArr);
+  const msgArr = event.message.text.split('\n').filter(msg => msg);
   const replyMessage = {
     type: 'text',
   };
