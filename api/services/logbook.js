@@ -4,7 +4,6 @@ const {
   Promise,
 } = require('../../config/headers');
 const {
-  baseUrl,
   REQUEST_CONFIG,
 } = require('../../config/const');
 const cookieHandler = require('../../lib/cookieHandler')
@@ -16,26 +15,42 @@ class Logbook {
     this.get = Promise.promisify(this.request.get);
   }
 
+  async getProfile(jar) {
+    const response = await this.get('/profile', { jar });
+    const $ = cheerio.load(response.body);
+    if($('title').text() === 'Login') return 'false';
+    const creds = {
+      name: '',
+      nim: '',
+    }
+    $('.twelve.wide.column.profile').find('.row').each((i, elm) => {
+      const value = $(elm).find('h2').text().split('\n')[0].trim();
+      if(i === 0) creds.nim = value;
+      if(i === 1) creds.name = value;
+    });
+    return creds.name + ' - ' + creds.nim;
+  }
+
+  async checkLogbookStatus(lineId) {
+    const jar = this.request.jar();
+    cookieHandler.loadCookie(lineId, jar);
+    const response = await this.get('/', {jar});
+    const $ = cheerio.load(response.body);
+    const status = $('.header').last().text();
+    if(status.indexOf('already') < 0) return status;
+    let log = '';
+    $('.compact').find('tr').each((_, tr) => {
+      td = $(tr).children();
+      log += '\n' + td.first().text() + ': ' + td.last().text();
+    });
+    return status + log;
+  }
+
   async checkLoginStatus(lineId) {
     try {
       const jar = this.request.jar();
-      jar.getCookies(baseUrl);
       cookieHandler.loadCookie(lineId, jar);
-
-      const response = await this.get('/profile', { jar });
-      const $ = cheerio.load(response.body);
-      if($('title').text() === 'Login') return 'false';
-      const creds = {
-        name: '',
-        nim: '',
-      }
-      $('.twelve.wide.column.profile').find('.row').each((i, elm) => {
-        const value = $(elm).find('h2').text().split('\n')[0].trim();
-        if(i === 0) creds.nim = value;
-        if(i === 1) creds.name = value;
-      });
-
-      return creds.name + ' - ' + creds.nim;
+      return await this.getProfile(jar);
     }catch(e) {
       return 'false';
     }

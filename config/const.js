@@ -29,9 +29,20 @@ const REQUEST_CONFIG = {
   }
 };
 
+const format = {
+  login: '\nlogin\nUSERNAME\nPASSWORD',
+  logbook: '\nlogbook\nCLOCK IN\n CLOCK OUT\nACTIVITY\nDescription',
+}
+
 const message = {
-  notLoggedin: 'You are not logged in. You can login by sending a message with the following format:\nlogin\nUSERNAME\nPASSWORD',
+  notLoggedIn: 'You are not logged in. You can login by sending a message with the following format:' + format.login,
   reLogin: 'You can login with a different account by resending the login message with different credentials.',
+  help: 'LBM8EZ reads your message and acts according to it. Therefore, your message needs to be in the correct format. ' +
+        'To know what the accepted format is, choose from the quick menu the action you want to perform. ' +
+        'In general the message structure you should send is:\nACTION\nDATA',
+  lbNotLoggedIn: 'You are not logged in. Please login first.',
+  lbNotFilled: 'You can submit today\'s logbook by sending a message with the following format:' + format.logbook,
+  lbRefill: 'You can change today\'s logbook content by sending the logbook message with different data.',
 }
 
 module.exports = {

@@ -17,6 +17,15 @@ async function login(lineId, msgArr) {
   return await logbook.login(lineId, msgArr[1], msgArr[2]);
 }
 
+async function getLogbookStatus(lineId) {
+  const logbook = new Logbook();
+  const loginStatus = await logbook.checkLoginStatus(lineId);
+  if(loginStatus === 'false') return message.lbNotLoggedIn;
+  let lbStatus = await logbook.checkLogbookStatus(lineId);
+  return lbStatus.indexOf('already') < 0 ?  lbStatus + '\n' + message.lbNotFilled :
+                                            lbStatus + '\n' + message.lbRefill;
+}
+
 async function handleEvent(req) {
   if(!isSignatureValid(req.headers['x-line-signature'], req.payload)) return Promise.resolve(null);
   const event = req.payload.events[0];
@@ -33,6 +42,8 @@ async function handleEvent(req) {
 
   if(action === '--login') replyMessage.text = await getLoginStatus(lineId);
   if(action === 'login') replyMessage.text = await login(lineId, msgArr);
+  if(action === '--logbook') replyMessage.text = await getLogbookStatus(lineId);
+  if(action === '--help') replyMessage.text = message.help;
 
   const client = new line.Client(LINE_CLIENT_CONFIG);
   return client.replyMessage(event.replyToken, replyMessage);
