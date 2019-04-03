@@ -1,7 +1,7 @@
-const channelAccessToken =  'RMwJeWl2fU0JpVmGb4wK7/qGhojRei2ggQCpYrINEXCmB5maff03CDiiXiY+k7qI0NWkVb1SEx1Rb7pggRtT3EZ7IA+RKzTlP0Ps/' +
-                            '3JsBgk53QtKadLssdqcBLFO1CSFOtp4RzSFr/FMdADO7xUOwgdB04t89/1O/w1cDnyilFU=';
+const channelAccessToken =  'S5dfUzY6Usjq1EeQuIg+rXQaCGtJdXkJiFYpk42kDZfO2oSUFp3IG5MUihSxzX6DfJTpFjahgL8rFBrpGV4XWt/' +
+                            'JtK7gSxDhWOFYZM10GjxOgs/7WhOxtP+BSSH6Vx2IKLL998Yf5lPwmu4AYckstwdB04t89/1O/w1cDnyilFU=';
 
-const channelSecret = 'f38cf099e61aaaf892d0fe5a35e7c03d';
+const channelSecret = 'bcb7d9d0f23de6ee6c1e3c872daaae4b';
 
 const baseUrl = 'http://industry.socs.binus.ac.id/learning-plan';
 
@@ -30,7 +30,8 @@ const REQUEST_CONFIG = {
 };
 
 const message = {
-  loginHow: ' by sending a message with the following format:\nlogin\nUSERNAME\nPASSWORD',
+  notLoggedin: 'You are not logged in. You can login by sending a message with the following format:\nlogin\nUSERNAME\nPASSWORD',
+  reLogin: 'You can login with a different account by resending the login message with different credentials.',
 }
 
 module.exports = {
