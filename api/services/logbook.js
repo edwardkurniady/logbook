@@ -76,6 +76,21 @@ class Logbook {
 
     return 'Login Successful!';
   }
+
+  async submitLogbook(lineId, data) {
+    const jar = this.request.jar();
+    cookieHandler.loadCookie(lineId, jar);
+    const response = await this.get('/', {jar});
+    const $ = cheerio.load(response.body);
+    const form = {};
+    $('input').each((i, el) => {
+      if($(el).attr('name') === 'semester') return;
+      data[$(el).attr('name')] ?  form[$(el).attr('name')] = data[$(el).attr('name')] : 
+                                  form[$(el).attr('name')] = $(el).val()
+    });
+    form.description = data.description;
+    await this.post('/student/log-book/insert', {form, jar});
+  }
 }
 // const request = require('request');
 // const cheerio = require('cheerio');
