@@ -18,7 +18,7 @@ class Logbook {
   async getProfile(jar) {
     const response = await this.get('/profile', { jar });
     const $ = cheerio.load(response.body);
-    if($('title').text() === 'Login') return 'false';
+    if($('title').text() === 'Login') return '';
     const creds = {
       name: '',
       nim: '',
@@ -52,7 +52,7 @@ class Logbook {
       cookieHandler.loadCookie(lineId, jar);
       return await this.getProfile(jar);
     }catch(e) {
-      return 'false';
+      return '';
     }
   }
 

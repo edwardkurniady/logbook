@@ -6,8 +6,8 @@ const Logbook = require('../services/logbook');
 async function getLoginStatus(lineId) {
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
-  return loginStatus === 'false' ?  message.notLoggedIn : 
-                                    'You are logged in as:\n' + loginStatus;
+  return !loginStatus ?  message.notLoggedIn : 
+                        'You are logged in as:\n' + loginStatus;
 }
 
 async function login(lineId, msgArr) {
@@ -20,8 +20,8 @@ async function login(lineId, msgArr) {
 async function getLogbookStatus(lineId) {
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
-  if(loginStatus === 'false') return message.lbNotLoggedIn;
-  let lbStatus = await logbook.checkLogbookStatus(lineId);
+  if(!loginStatus) return message.lbNotLoggedIn;
+  const lbStatus = await logbook.checkLogbookStatus(lineId);
   return lbStatus.indexOf('already') < 0 ?  lbStatus + '\n' + message.lbNotFilled :
                                             lbStatus;
 }
@@ -30,7 +30,7 @@ async function submitLogbook(lineId, msgArr) {
   if(msgArr.length < 5) return 'Wrong message format!';
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
-  if(loginStatus === 'false') return message.lbNotLoggedIn;
+  if(!loginStatus) return message.lbNotLoggedIn;
   const data = {
     'clock-in': msgArr[1],
     'clock-out': msgArr[2],
