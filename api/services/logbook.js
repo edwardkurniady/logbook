@@ -67,11 +67,10 @@ class Logbook {
     });
     form.username = username;
     form.password = password;
-  
     const loginResp = await this.post('/auth/login', { form, jar });
     const $login = cheerio.load(loginResp.body);
-    const errorMsg = $login('.ui.red').text().trim();
 
+    const errorMsg = $login('.ui.red').text().trim();
     if(errorMsg) return errorMsg;
 
     cookieHandler.saveCookie(lineId, loginResp.headers['set-cookie']);

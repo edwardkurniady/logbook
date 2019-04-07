@@ -3,7 +3,7 @@ const channelAccessToken =  'S5dfUzY6Usjq1EeQuIg+rXQaCGtJdXkJiFYpk42kDZfO2oSUFp3
 
 const channelSecret = 'bcb7d9d0f23de6ee6c1e3c872daaae4b';
 
-const baseUrl = 'http://industry.socs.binus.ac.id/learning-plan';
+const baseUrl = 'https://industry.socs.binus.ac.id/learning-plan';
 
 const HAPI_SERVER_CONFIG = {
   host: '0.0.0.0',
