@@ -62,7 +62,8 @@ class Logbook {
     const $ = cheerio.load(response.body);
     const form = {};
     $('input').each((_, el) => {
-      form[$(el).attr('name')] = $(el).val();
+      if($(el).val() !== 'Login')
+        form[$(el).attr('name')] = $(el).val();
     });
     form.username = username;
     form.password = password;
