@@ -70,7 +70,7 @@ class Logbook {
     const loginResp = await this.post('/auth/login', { form, jar });
     const $login = cheerio.load(loginResp.body);
 
-    const errorMsg = $login('.ui.red').text().trim();
+    const errorMsg = $login('.ui.red').text().trim().replace(/0+/gm, '');
     if(errorMsg) return errorMsg;
 
     cookieHandler.saveCookie(lineId, loginResp.headers['set-cookie']);
