@@ -6,4 +6,7 @@ module.exports = {
   request : require('request'),
   cheerio : require('cheerio'),
   Promise : require('bluebird'),
+  HapiCron: require('hapi-cron'),
+  Glue    : require('glue'),
+  moment  : require('moment-timezone'),
 };

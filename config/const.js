@@ -34,20 +34,21 @@ const format = {
   login: '\nlogin\nUSERNAME\nPASSWORD',
   logbook: '\nlogbook\nCLOCK IN\nCLOCK OUT\nACTIVITY\nDESCRIPTION',
   oneForAll: '\noneforall\nUSERNAME\nPASSWORD\nCLOCK IN\nCLOCK OUT\nACTIVITY\nDESCRIPTION'
-}
+};
 
 const message = {
   notLoggedIn: 'You are not logged in. You can login by sending a message with the following format:' + format.login,
+  lbNotLoggedIn: 'You are not logged in. Please login first.',
+  loggedIn: 'You can login with a different account by resending the login message:' + format.login,
+  lbNotFilled: 'You can submit today\'s logbook by sending a message with the following format:' + format.logbook,
+  oneForAll: 'Login, submit logbook, send ONE message to do them ALL with.. ONE FOR ALL!' + format.oneForAll,
+  dailyReminder: 'Attention! You haven\'t submitted today\'s logbook!',
   help: 'Logbook Made Easy is a Line Messaging API that helps binusian fill their logbook. ' +
         'To do so, LBM8EZ needs your login credentials. But don\'t worry, LBM8EZ doesn\'t store your username or password. ' +
-        'What it does store however, is your login session which will expire in \u00B12 hours. Hence you need to relogin every once in a while. ' + 
         'LBM8EZ reads your message and acts according to it. Therefore, your message needs to be in the correct format. ' +
         'To know what the accepted format is, choose from the quick menu the action you want to perform. ' +
         'In general the message format you should send is:' + format.general,
-  lbNotLoggedIn: 'You are not logged in. Please login first.',
-  lbNotFilled: 'You can submit today\'s logbook by sending a message with the following format:' + format.logbook,
-  oneForAll: 'Login, submit logbook, send ONE message to do them ALL with.. ONE FOR ALL!' + format.oneForAll,
-}
+};
 
 module.exports = {
   HAPI_SERVER_CONFIG,

@@ -14,7 +14,9 @@
     "cheerio": "^1.0.0-rc.2",
     "crypto": "^1.0.1",
     "dotenv": "^7.0.0",
+    "glue": "^6.0.0",
     "hapi": "^18.1.0",
+    "hapi-cron": "^1.0.5",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "request": "^2.88.0"

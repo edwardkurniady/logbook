@@ -1,13 +1,15 @@
 const { line } = require('../../config/headers');
 const { LINE_CLIENT_CONFIG, message } = require('../../config/const');
 const { isSignatureValid } = require('../../lib/validator')
+const { readStorage } = require('../../lib/readStorage');
+const { logger } = require('../../lib/logging');
 const Logbook = require('../services/logbook');
 
 async function getLoginStatus(lineId) {
   const logbook = new Logbook();
   const loginStatus = await logbook.checkLoginStatus(lineId);
   return !loginStatus ?  message.notLoggedIn : 
-                        'You are logged in as:\n' + loginStatus;
+                        'You are logged in as:\n' + loginStatus + '\n' + message.loggedIn;
 }
 
 async function login(lineId, msgArr) {
@@ -87,8 +89,43 @@ module.exports = {
     if(action === '--oneforall') replyMessage.text = message.oneForAll;
     if(action === 'oneforall') replyMessage.text = await plusUltra(lineId, msgArr);
     if(action === '--help') replyMessage.text = message.help;
-  
+
+    logger(JSON.stringify({lineId, action, replyMessage}, null, 2));
+
     const client = new line.Client(LINE_CLIENT_CONFIG);
     return client.replyMessage(event.replyToken, replyMessage);
+  },
+  cookieReset: () => {
+    const logbook = new Logbook();
+    logbook.resetCookies(readStorage());
+    logger('Cookie Reset');
+    return Promise.resolve(null);
+  },
+  weekendFill: () => {
+    const logbook = new Logbook();
+    logbook.weekendFill(readStorage(), {
+      'clock-in': 'OFF',
+      'clock-out': 'OFF',
+      'activity': 'OFF',
+      'description': 'OFF',
+    });
+    logger('Weekend Auto Fill');
+    return Promise.resolve(null);
+  },
+  dailyLBReminder: async() => {
+    const client = new line.Client(LINE_CLIENT_CONFIG);
+    const logbook = new Logbook();
+    const lineIdArr = readStorage();
+    const lineIds = [];
+    for(let i = 0; i < lineIdArr.length; i++) {
+      const loginStatus = await logbook.checkLoginStatus(lineIdArr[i]);
+      if(!loginStatus) continue;
+      const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
+      if(lbStatus.indexOf('already') < 0) lineIds.push(lineIdArr[i]);
+    }
+    
+    client.multicast(lineIds, message.dailyReminder);
+    logger('Reminder');
+    return Promise.resolve(null);
   },
 };

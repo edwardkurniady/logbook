@@ -83,13 +83,42 @@ class Logbook {
     const response = await this.get('/', {jar});
     const $ = cheerio.load(response.body);
     const form = {};
-    $('input').each((i, el) => {
+    $('input').each((_, el) => {
       if($(el).attr('name') === 'semester') return;
       data[$(el).attr('name')] ?  form[$(el).attr('name')] = data[$(el).attr('name')] : 
                                   form[$(el).attr('name')] = $(el).val()
     });
     form.description = data.description;
     await this.post('/student/log-book/insert', {form, jar});
+  }
+
+  async resetCookies(lineIdArr) {
+    for(let i = 0; i < lineIdArr.length; i++) {
+      const jar = this.request.jar();
+      cookieHandler.loadCookie(lineIdArr[i], jar);
+      const response = await this.get('/', {jar});
+      const $ = cheerio.load(response.body);
+      if($('title').text() === 'Login') continue;
+      cookieHandler.saveCookie(lineIdArr[i], response.headers['set-cookie']);
+    }
+  }
+
+  async weekendFill(lineIdArr, data) {
+    for(let i = 0; i < lineIdArr.length; i++) {
+      const jar = this.request.jar();
+      cookieHandler.loadCookie(lineIdArr[i], jar);
+      const response = await this.get('/', {jar});
+      const $ = cheerio.load(response.body);
+      if($('title').text() === 'Login') continue;
+      const form = {};
+      $('input').each((_, el) => {
+        if($(el).attr('name') === 'semester') return;
+        data[$(el).attr('name')] ?  form[$(el).attr('name')] = data[$(el).attr('name')] : 
+                                    form[$(el).attr('name')] = $(el).val()
+      });
+      form.description = data.description;
+      await this.post('/student/log-book/insert', {form, jar});
+    }
   }
 }
 
