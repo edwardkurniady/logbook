@@ -22,7 +22,6 @@ const REQUEST_CONFIG = {
   headers: {      
     'Accept': 'text/html,application/xhtml+xml,application/' +
               'xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-    'Cache-Control': 'max-age=0',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
                   'AppleWebKit/537.36 (KHTML, like Gecko) ' +
                   'Chrome/63.0.3239.84 ' +
@@ -48,7 +47,8 @@ const message = {
         'To do so, LBM8EZ needs your login credentials. But don\'t worry, LBM8EZ doesn\'t store your username or password. ' +
         'LBM8EZ reads your message and acts according to it. Therefore, your message needs to be in the correct format. ' +
         'To know what the accepted format is, choose from the quick menu the action you want to perform. ' +
-        'In general the message format you should send is:' + format.general,
+        'In general the message format you should send is:' + format.general + '\n' +
+        'ACTION is case insensitive.',
 };
 
 module.exports = {
