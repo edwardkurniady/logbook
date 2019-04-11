@@ -34,12 +34,12 @@ class Logbook {
   async checkLogbookStatus(lineId) {
     const jar = this.request.jar();
     cookieHandler.loadCookie(lineId, jar);
-    const response = await this.get('/', {jar});
+    const response = await this.get('/student/log-book/insert', {jar});
     const $ = cheerio.load(response.body);
     const status = $('.header').last().text();
     if(status.indexOf('already') < 0) return status;
     let log = '';
-    $('.compact').find('tr').each((_, tr) => {
+    $('.ui.compact.table').first().find('tr').each((_, tr) => {
       const td = $(tr).children();
       log += '\n' + td.first().text() + ': ' + td.last().text();
     });
@@ -81,7 +81,7 @@ class Logbook {
   async submitLogbook(lineId, data) {
     const jar = this.request.jar();
     cookieHandler.loadCookie(lineId, jar);
-    const response = await this.get('/', {jar});
+    const response = await this.get('/student/log-book/insert', {jar});
     const $ = cheerio.load(response.body);
     const form = {};
     $('input').each((_, el) => {
@@ -108,7 +108,7 @@ class Logbook {
     for(let i = 0; i < lineIdArr.length; i++) {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
-      const response = await this.get('/', {jar});
+      const response = await this.get('/student/log-book/insert', {jar});
       const $ = cheerio.load(response.body);
       if($('title').text() === 'Login') continue;
       const form = {};
