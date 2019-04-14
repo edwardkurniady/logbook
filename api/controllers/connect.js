@@ -63,9 +63,15 @@ async function plusUltra(lineId, msgArr) {
   return 'Plus Ultra!';
 }
 
-async function guys() {
+async function guys(lineId) {
+  if(lineId !== 'U473286432bedc38b7cf06cb7255f28af') return '';
   const logbook = new Logbook();
   return await logbook.guys(readStorage());
+}
+
+async function logout(lineId) {
+  const logbook = new Logbook();
+  return await logbook.logout(lineId);
 }
 
 function isRequestValid(req) {
@@ -94,7 +100,8 @@ module.exports = {
     if(action === '--oneforall') replyMessage.text = message.oneForAll;
     if(action === 'oneforall') replyMessage.text = await plusUltra(lineId, msgArr);
     if(action === '--help') replyMessage.text = message.help;
-    if(action === '--guys') replyMessage.text = await guys();
+    if(action === '--guys') replyMessage.text = await guys(lineId);
+    if(action === 'logout') replyMessage.text = await logout(lineId);
 
     logger(JSON.stringify({lineId, action, replyMessage}, null, 2));
 

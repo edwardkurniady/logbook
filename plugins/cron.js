@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         name: 'weekendfiller',
-        time: '0 0 1 * * 0,6',
+        time: '0 0 12 * * 0,6',
         timezone: 'Asia/Jakarta',
         request: {
           method: 'GET',

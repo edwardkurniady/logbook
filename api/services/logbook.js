@@ -136,6 +136,14 @@ class Logbook {
     }
     return str;
   }
+
+  async logout(lineId) {
+    const jar = this.request.jar();
+    cookieHandler.loadCookie(lineId, jar);
+    const response = await this.get('/logout', jar);
+    cookieHandler.saveCookie(lineId, response.headers['set-cookie']);
+    return 'Successful Logout!';
+  }
 }
 
 module.exports = Logbook;
