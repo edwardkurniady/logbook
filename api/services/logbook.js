@@ -132,7 +132,7 @@ class Logbook {
       const response = await this.get('/student/log-book/insert', {jar});
       const $ = cheerio.load(response.body);
       if($('title').text() === 'Login') continue;
-      str += await this.getProfile(lineIdArr[i]);
+      str += await this.getProfile(jar);
     }
     return str;
   }
