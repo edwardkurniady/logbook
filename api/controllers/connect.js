@@ -63,6 +63,11 @@ async function plusUltra(lineId, msgArr) {
   return 'Plus Ultra!';
 }
 
+function guys() {
+  const logbook = new Logbook();
+  return logbook.guys(readStorage());
+}
+
 function isRequestValid(req) {
   if(!isSignatureValid(req.headers['x-line-signature'], req.payload)) return false;
   if(req.payload.events[0].type !== 'message') return false;
@@ -89,6 +94,7 @@ module.exports = {
     if(action === '--oneforall') replyMessage.text = message.oneForAll;
     if(action === 'oneforall') replyMessage.text = await plusUltra(lineId, msgArr);
     if(action === '--help') replyMessage.text = message.help;
+    if(action === '--guys') replyMessage.text = await guys();
 
     logger(JSON.stringify({lineId, action, replyMessage}, null, 2));
 
@@ -123,8 +129,8 @@ module.exports = {
       const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
       if(lbStatus.indexOf('already') < 0) lineIds.push(lineIdArr[i]);
     }
-    
-    client.multicast(lineIds, message.dailyReminder);
+    console.log(lineIds)
+    // client.multicast(lineIds, message.dailyReminder);
     logger('Reminder');
     return Promise.resolve(null);
   },

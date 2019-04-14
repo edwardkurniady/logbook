@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         name: 'weekendfiller',
-        time: '0 0 0 * * 0,6',
+        time: '0 0 1 * * 0,6',
         timezone: 'Asia/Jakarta',
         request: {
           method: 'GET',
@@ -24,7 +24,7 @@ module.exports = {
       },
       {
         name: 'logbookreminder',
-        time: '0 0 21 * * 1-5',
+        time: '0 27 9 * * 1-5',
         timezone: 'Asia/Jakarta',
         request: {
           method: 'GET',

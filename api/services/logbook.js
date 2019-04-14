@@ -111,6 +111,8 @@ class Logbook {
       const response = await this.get('/student/log-book/insert', {jar});
       const $ = cheerio.load(response.body);
       if($('title').text() === 'Login') continue;
+      const status = $('.header').last().text();
+      if(status.indexOf('already') > -1) continue;
       const form = {};
       $('input').each((_, el) => {
         if($(el).attr('name') === 'semester') return;
@@ -120,6 +122,19 @@ class Logbook {
       form.description = data.description;
       await this.post('/student/log-book/insert', {form, jar});
     }
+  }
+
+  async guys(lineIdArr) {
+    let str = '';
+    for(let i = 0; i < lineIdArr.length; i++) {
+      const jar = this.request.jar();
+      cookieHandler.loadCookie(lineIdArr[i], jar);
+      const response = await this.get('/student/log-book/insert', {jar});
+      const $ = cheerio.load(response.body);
+      if($('title').text() === 'Login') continue;
+      str += await this.getProfile(lineIdArr[i]);
+    }
+    return str;
   }
 }
 
