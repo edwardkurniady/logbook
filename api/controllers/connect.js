@@ -63,9 +63,9 @@ async function plusUltra(lineId, msgArr) {
   return 'Plus Ultra!';
 }
 
-function guys() {
+async function guys() {
   const logbook = new Logbook();
-  return logbook.guys(readStorage());
+  return await logbook.guys(readStorage());
 }
 
 function isRequestValid(req) {
