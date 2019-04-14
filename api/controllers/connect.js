@@ -100,7 +100,7 @@ module.exports = {
     if(action === '--oneforall') replyMessage.text = message.oneForAll;
     if(action === 'oneforall') replyMessage.text = await plusUltra(lineId, msgArr);
     if(action === '--help') replyMessage.text = message.help;
-    if(action === '--guys') replyMessage.text = await getUsers(lineId);
+    if(action === '--getUsers') replyMessage.text = await getUsers(lineId);
     if(action === 'logout') replyMessage.text = await logout(lineId);
 
     logger(JSON.stringify({lineId, action, replyMessage}, null, 2));
