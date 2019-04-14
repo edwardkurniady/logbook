@@ -6,7 +6,8 @@ const {
 const {
   REQUEST_CONFIG,
 } = require('../../config/const');
-const cookieHandler = require('../../lib/cookieHandler')
+const cookieHandler = require('../../lib/cookieHandler');
+const moment = require('moment-timezone');
 
 class Logbook {
   constructor() {
@@ -111,8 +112,13 @@ class Logbook {
       const response = await this.get('/student/log-book/insert', {jar});
       const $ = cheerio.load(response.body);
       if($('title').text() === 'Login') continue;
-      const status = $('.header').last().text();
-      if(status.indexOf('already') > -1) continue;
+      const status = $('.header').text();
+      const _keyword = 'You haven\'t filled activity on ';
+      const _indexKeyword = status.indexOf(_keyword);
+      if(!status || _indexKeyword === -1) continue;
+      const _startIndex = _indexKeyword+_keyword.length;
+      const dateDiff = moment(status.slice(_startIndex, _startIndex+10)).diff(moment.tz('Asia/Jakarta'), 'day');
+      if(dateDiff !== 0) continue;
       const form = {};
       $('input').each((_, el) => {
         if($(el).attr('name') === 'semester') return;
