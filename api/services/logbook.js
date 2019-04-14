@@ -18,7 +18,7 @@ class Logbook {
   async getProfile(jar) {
     const response = await this.get('/profile', { jar });
     const $ = cheerio.load(response.body);
-    if($('title').text() === 'Login') return '';
+    if($('title').text().indexOf('Login') > -1) return '';
     const creds = {
       name: '',
       nim: '',
@@ -34,7 +34,7 @@ class Logbook {
   async checkLogbookStatus(lineId) {
     const jar = this.request.jar();
     cookieHandler.loadCookie(lineId, jar);
-    const response = await this.get('/student/log-book/insert', {jar});
+    const response = await this.get('/student/log-book/insert', { jar });
     const $ = cheerio.load(response.body);
     const status = $('.header').last().text();
     if(status.indexOf('already') < 0) return status;
@@ -81,7 +81,7 @@ class Logbook {
   async submitLogbook(lineId, data) {
     const jar = this.request.jar();
     cookieHandler.loadCookie(lineId, jar);
-    const response = await this.get('/student/log-book/insert', {jar});
+    const response = await this.get('/student/log-book/insert', { jar });
     const $ = cheerio.load(response.body);
     const form = {};
     $('input').each((_, el) => {
@@ -90,16 +90,16 @@ class Logbook {
                                   form[$(el).attr('name')] = $(el).val()
     });
     form.description = data.description;
-    await this.post('/student/log-book/insert', {form, jar});
+    await this.post('/student/log-book/insert', { form, jar });
   }
 
   async resetCookies(lineIdArr) {
     for(let i = 0; i < lineIdArr.length; i++) {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
-      const response = await this.get('/', {jar});
+      const response = await this.get('/', { jar });
       const $ = cheerio.load(response.body);
-      if($('title').text() === 'Login') continue;
+      if($('title').text().indexOf('Login') > -1) return '';
       cookieHandler.saveCookie(lineIdArr[i], response.headers['set-cookie']);
     }
   }
@@ -108,9 +108,9 @@ class Logbook {
     for(let i = 0; i < lineIdArr.length; i++) {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
-      const response = await this.get('/student/log-book/insert', {jar});
+      const response = await this.get('/student/log-book/insert', { jar });
       const $ = cheerio.load(response.body);
-      if($('title').text() === 'Login') continue;
+      if($('title').text().indexOf('Login') > -1) return '';
       const status = $('.header').last().text();
       if(status.indexOf('already') > -1) continue;
       const form = {};
@@ -120,18 +120,18 @@ class Logbook {
                                     form[$(el).attr('name')] = $(el).val()
       });
       form.description = data.description;
-      await this.post('/student/log-book/insert', {form, jar});
+      await this.post('/student/log-book/insert', { form, jar });
     }
   }
 
-  async guys(lineIdArr) {
+  async getUsers(lineIdArr) {
     let str = '';
     for(let i = 0; i < lineIdArr.length; i++) {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
-      const response = await this.get('/student/log-book/insert', {jar});
+      const response = await this.get('/student/log-book/insert', { jar });
       const $ = cheerio.load(response.body);
-      if($('title').text() === 'Login') continue;
+      if($('title').text().indexOf('Login') > -1) return '';
       str += await this.getProfile(jar);
     }
     return str;
@@ -140,7 +140,7 @@ class Logbook {
   async logout(lineId) {
     const jar = this.request.jar();
     cookieHandler.loadCookie(lineId, jar);
-    const response = await this.get('/logout', jar);
+    const response = await this.get('/logout', { jar });
     cookieHandler.saveCookie(lineId, response.headers['set-cookie']);
     return 'Successful Logout!';
   }
