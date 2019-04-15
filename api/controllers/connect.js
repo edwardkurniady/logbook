@@ -1,5 +1,9 @@
 const { line } = require('../../config/headers');
-const { LINE_CLIENT_CONFIG, message } = require('../../config/const');
+const { 
+  LINE_CLIENT_CONFIG, 
+  message,
+  adminId,
+} = require('../../config/const');
 const { isSignatureValid } = require('../../lib/validator')
 const { readStorage } = require('../../lib/readStorage');
 const { logger } = require('../../lib/logging');
@@ -64,7 +68,7 @@ async function plusUltra(lineId, msgArr) {
 }
 
 async function getUsers(lineId) {
-  if(lineId !== 'U473286432bedc38b7cf06cb7255f28af') return '';
+  if(lineId != adminId) return '';
   const logbook = new Logbook();
   return await logbook.getUsers(readStorage());
 }

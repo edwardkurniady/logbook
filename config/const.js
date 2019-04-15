@@ -5,6 +5,8 @@ const channelSecret = 'bcb7d9d0f23de6ee6c1e3c872daaae4b';
 
 const baseUrl = 'https://industry.socs.binus.ac.id/learning-plan';
 
+const adminId = 'U473286432bedc38b7cf06cb7255f28af';
+
 const HAPI_SERVER_CONFIG = {
   host: '0.0.0.0',
   port: 8000,
@@ -59,4 +61,5 @@ module.exports = {
   channelSecret,
   baseUrl,
   message,
+  adminId,
 };
