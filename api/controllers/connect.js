@@ -74,6 +74,7 @@ async function getUsers(lineId) {
 }
 
 async function logout(lineId) {
+  console.log('logging out..');
   const logbook = new Logbook();
   return await logbook.logout(lineId);
 }
