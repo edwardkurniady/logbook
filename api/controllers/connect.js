@@ -74,7 +74,6 @@ async function getUsers(lineId) {
 }
 
 async function logout(lineId) {
-  console.log('willy sama');
   const logbook = new Logbook();
   return await logbook.logout(lineId);
 }
@@ -97,7 +96,8 @@ module.exports = {
       type: 'text',
     };
     const action = msgArr[0].toLowerCase();
-  
+    console.log(typeof lineId);
+    console.log(lineId);
     if(action === '--login') replyMessage.text = await getLoginStatus(lineId);
     if(action === 'login') replyMessage.text = await login(lineId, msgArr);
     if(action === '--logbook') replyMessage.text = await getLogbookStatus(lineId);
