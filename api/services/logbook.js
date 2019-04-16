@@ -130,6 +130,7 @@ class Logbook {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
       str += await this.checkLoginStatus(lineIdArr[i]);
+      if(i !== lineIdArr.length - 1) str += '\n';
     }
     return str;
   }
