@@ -70,6 +70,8 @@ async function plusUltra(lineId, msgArr) {
 async function getUsers(lineId) {
   console.log(lineId);
   console.log(adminId);
+  console.log(typeof lineId);
+  console.log(lineId === adminId);
   if(lineId != adminId) return '';
   const logbook = new Logbook();
   return await logbook.getUsers(readStorage());
@@ -98,7 +100,7 @@ module.exports = {
       type: 'text',
     };
     const action = msgArr[0].toLowerCase();
-    console.log(typeof lineId);
+    
     if(action === '--login') replyMessage.text = await getLoginStatus(lineId);
     if(action === 'login') replyMessage.text = await login(lineId, msgArr);
     if(action === '--logbook') replyMessage.text = await getLogbookStatus(lineId);
