@@ -69,9 +69,10 @@ async function plusUltra(lineId, msgArr) {
 
 async function getUsers(lineId) {
   if(lineId !== adminId) return '';
-  console.log('ASDASDAS');
   const logbook = new Logbook();
-  return await logbook.getUsers(readStorage());
+  const users = await logbook.getUsers(readStorage());
+  console.log(users)
+  return users;
 }
 
 async function logout(lineId) {
