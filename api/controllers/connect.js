@@ -71,8 +71,8 @@ async function getUsers(lineId) {
   console.log(lineId);
   console.log(adminId);
   console.log(typeof lineId);
-  console.log(lineId === adminId);
-  if(lineId != adminId) return '';
+  console.log(lineId !== adminId);
+  if(lineId !== adminId) return '';
   const logbook = new Logbook();
   return await logbook.getUsers(readStorage());
 }
