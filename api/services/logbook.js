@@ -129,7 +129,9 @@ class Logbook {
     for(let i = 0; i < lineIdArr.length; i++) {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
-      str += await this.checkLoginStatus(lineIdArr[i]);
+      const user = await this.checkLoginStatus(lineIdArr[i]);
+      if(!user) continue;
+      str += user.replace(/\s-.+/gm, '');
       if(i !== lineIdArr.length - 1) str += '\n';
     }
     return str;
