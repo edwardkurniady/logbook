@@ -129,10 +129,7 @@ class Logbook {
     for(let i = 0; i < lineIdArr.length; i++) {
       const jar = this.request.jar();
       cookieHandler.loadCookie(lineIdArr[i], jar);
-      const response = await this.get('/student/log-book/insert', { jar });
-      const $ = cheerio.load(response.body);
-      if($('title').text().indexOf('Login') > -1) return;
-      str += await this.getProfile(jar);
+      str += await this.checkLoginStatus(lineIdArr[i]);
     }
     return str;
   }
