@@ -99,7 +99,7 @@ class Logbook {
       cookieHandler.loadCookie(lineIdArr[i], jar);
       const response = await this.get('/', { jar });
       const $ = cheerio.load(response.body);
-      if($('title').text().indexOf('Login') > -1) return;
+      if($('title').text().indexOf('Login') > -1) continue;
       cookieHandler.saveCookie(lineIdArr[i], response.headers['set-cookie']);
     }
   }
@@ -110,7 +110,7 @@ class Logbook {
       cookieHandler.loadCookie(lineIdArr[i], jar);
       const response = await this.get('/student/log-book/insert', { jar });
       const $ = cheerio.load(response.body);
-      if($('title').text().indexOf('Login') > -1) return;
+      if($('title').text().indexOf('Login') > -1) continue;
       const status = $('.header').last().text();
       if(status.indexOf('already') > -1) continue;
       const form = {};
