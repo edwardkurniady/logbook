@@ -88,6 +88,7 @@ function isRequestValid(req) {
 module.exports = {
   handleEvent: async(req) => {
     if(!isRequestValid(req)) return Promise.resolve(null);
+    console.log(req.payload);
     const event = req.payload.events[0];
   
     const lineId = event.source.userId;
