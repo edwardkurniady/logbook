@@ -131,7 +131,7 @@ class Logbook {
       cookieHandler.loadCookie(lineIdArr[i], jar);
       const user = await this.checkLoginStatus(lineIdArr[i]);
       if(!user) continue;
-      if(i > 0) str += '\n';
+      if(str) str += '\n';
       str += user.replace(/\s-.+/gm, '');
     }
     return str;
