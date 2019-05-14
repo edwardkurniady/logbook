@@ -1,7 +1,5 @@
-const channelAccessToken =  'S5dfUzY6Usjq1EeQuIg+rXQaCGtJdXkJiFYpk42kDZfO2oSUFp3IG5MUihSxzX6DfJTpFjahgL8rFBrpGV4XWt/' +
-                            'JtK7gSxDhWOFYZM10GjxOgs/7WhOxtP+BSSH6Vx2IKLL998Yf5lPwmu4AYckstwdB04t89/1O/w1cDnyilFU=';
-
-const channelSecret = 'bcb7d9d0f23de6ee6c1e3c872daaae4b';
+const channelAccessToken =  'THPHSTa27EYaCj9/PDfZIqtyDo0Nwttz6GZ5VXGvlgQhNmNbyy+VfxYqcSNLHQBdHJJdy5W1lwQZA429aJJY2RmL1PdjLK5E896tHyt30gnybmQibr4nxDQ8Sxha3L2kiKjPZMcFw3apYmR/DOeq/AdB04t89/1O/w1cDnyilFU=';
+const channelSecret = 'da24bf87b884f4af28464afa6cb31a16';
 
 const baseUrl = 'https://industry.socs.binus.ac.id/learning-plan';
 
