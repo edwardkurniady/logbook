@@ -9,4 +9,5 @@ module.exports = {
   HapiCron: require('hapi-cron'),
   Glue    : require('glue'),
   moment  : require('moment-timezone'),
+  dotenv  : require('dotenv').config(),
 };

@@ -86,7 +86,7 @@ function isRequestValid(req) {
 }
 
 module.exports = {
-  handleEvent: async(req) => {
+  handleEvent: async (req) => {
     if(!isRequestValid(req)) return Promise.resolve(null);
     const event = req.payload.events[0];
   
@@ -129,7 +129,7 @@ module.exports = {
     logger('Weekend Auto Fill');
     return Promise.resolve(null);
   },
-  dailyLBReminder: async() => {
+  dailyLBReminder: async () => {
     const client = new line.Client(LINE_CLIENT_CONFIG);
     const logbook = new Logbook();
     const lineIdArr = readStorage();
@@ -140,8 +140,7 @@ module.exports = {
       const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
       if(lbStatus.indexOf('already') < 0) lineIds.push(lineIdArr[i]);
     }
-    console.log(lineIds)
-    // client.multicast(lineIds, message.dailyReminder);
+    await client.multicast(lineIds, message.dailyReminder);
     logger('Reminder');
     return Promise.resolve(null);
   },

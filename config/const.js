@@ -1,13 +1,12 @@
-const channelAccessToken =  'THPHSTa27EYaCj9/PDfZIqtyDo0Nwttz6GZ5VXGvlgQhNmNbyy+VfxYqcSNLHQBdHJJdy5W1lwQZA429aJJY2RmL1PdjLK5E896tHyt30gnybmQibr4nxDQ8Sxha3L2kiKjPZMcFw3apYmR/DOeq/AdB04t89/1O/w1cDnyilFU=';
-const channelSecret = 'da24bf87b884f4af28464afa6cb31a16';
-
+require('./headers').dotenv;
 const baseUrl = 'https://industry.socs.binus.ac.id/learning-plan';
-
-const adminId = 'U473286432bedc38b7cf06cb7255f28af';
+const channelAccessToken = process.env.TOKEN;
+const channelSecret = process.env.SECRET;
+const adminId = process.env.ADMIN;
 
 const HAPI_SERVER_CONFIG = {
-  host: '0.0.0.0',
-  port: 8000,
+  host: process.env.HOST,
+  port: process.env.PORT,
 };
 
 const LINE_CLIENT_CONFIG = {
