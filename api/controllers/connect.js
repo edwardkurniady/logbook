@@ -139,7 +139,7 @@ module.exports = {
       const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
       if(lbStatus.indexOf('already') > -1) continue;
       client.pushMessage(
-        lineId, 
+        lineIdArr[i], 
         loginStatus
           .toLowerCase()
           .split(' ')
