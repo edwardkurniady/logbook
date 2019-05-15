@@ -134,13 +134,15 @@ module.exports = {
     const logbook = new Logbook();
     const lineIdArr = readStorage();
     lineIdArr.forEach(lineId => {
-      const loginStatus = (await logbook.checkLoginStatus(lineId)).toLowerCase();
+      const loginStatus = await logbook.checkLoginStatus(lineId);
       if(!loginStatus) continue;
       const lbStatus = await logbook.checkLogbookStatus(lineI);
       if(lbStatus.indexOf('already') > -1) continue;
       client.pushMessage(
         lineId, 
-        loginStatus.split(' ')
+        loginStatus
+          .toLowerCase()
+          .split(' ')
           .map( (s) => s.charAt(0).toUpperCase() + s.substring(1))
           .join(' ') 
         + ', '
