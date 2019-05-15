@@ -139,6 +139,7 @@ module.exports = {
       const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
       if(lbStatus.indexOf('already') > -1) continue;
       const reminder = loginStatus
+        .replace(/\s-.+/gm, '')
         .toLowerCase()
         .split(' ')
         .map( (s) => s.charAt(0).toUpperCase() + s.substring(1))
