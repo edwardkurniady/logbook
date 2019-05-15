@@ -138,16 +138,18 @@ module.exports = {
       if(!loginStatus) continue;
       const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
       if(lbStatus.indexOf('already') > -1) continue;
-      await client.pushMessage(
-        lineIdArr[i], 
-        loginStatus
-          .toLowerCase()
-          .split(' ')
-          .map( (s) => s.charAt(0).toUpperCase() + s.substring(1))
-          .join(' ') 
-        + ', '
-        + message.dailyReminder,
-      );
+      const reminder = loginStatus
+        .toLowerCase()
+        .split(' ')
+        .map( (s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' ') 
+      + ', '
+      + message.dailyReminder;
+
+      await client.pushMessage(lineIdArr[i], {
+        type: 'text',
+        text: reminder,
+      });
     }
     logger('Reminder');
     return Promise.resolve(null);
