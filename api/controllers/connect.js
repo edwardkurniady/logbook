@@ -133,14 +133,20 @@ module.exports = {
     const client = new line.Client(LINE_CLIENT_CONFIG);
     const logbook = new Logbook();
     const lineIdArr = readStorage();
-    const lineIds = [];
-    for(let i = 0; i < lineIdArr.length; i++) {
-      const loginStatus = await logbook.checkLoginStatus(lineIdArr[i]);
+    lineIdArr.forEach(lineId => {
+      const loginStatus = (await logbook.checkLoginStatus(lineId)).toLowerCase();
       if(!loginStatus) continue;
-      const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
-      if(lbStatus.indexOf('already') < 0) lineIds.push(lineIdArr[i]);
-    }
-    await client.multicast(lineIds, message.dailyReminder);
+      const lbStatus = await logbook.checkLogbookStatus(lineI);
+      if(lbStatus.indexOf('already') > -1) continue;
+      client.pushMessage(
+        lineId, 
+        loginStatus.split(' ')
+          .map( (s) => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(' ') 
+        + ', '
+        + message.dailyReminder,
+      );
+    });
     logger('Reminder');
     return Promise.resolve(null);
   },

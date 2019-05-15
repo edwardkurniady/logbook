@@ -41,7 +41,7 @@ const message = {
   loggedIn: 'You can login with a different account by resending the login message:' + format.login,
   lbNotFilled: 'You can submit today\'s logbook by sending a message with the following format:' + format.logbook,
   oneForAll: 'Login, submit logbook, send ONE message to do them ALL with.. ONE FOR ALL!' + format.oneForAll,
-  dailyReminder: 'Attention! You haven\'t submitted today\'s logbook!',
+  dailyReminder: 'I see you haven\'t filled today\'s logbook, please fill it asap ^^',
   help: 'Logbook Made Easy is a Line Messaging API that helps binusian fill their logbook. ' +
         'To do so, LBM8EZ needs your login credentials. But don\'t worry, LBM8EZ doesn\'t store your username or password. ' +
         'LBM8EZ reads your message and acts according to it. Therefore, your message needs to be in the correct format. ' +
