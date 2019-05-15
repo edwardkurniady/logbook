@@ -138,7 +138,7 @@ module.exports = {
       if(!loginStatus) continue;
       const lbStatus = await logbook.checkLogbookStatus(lineIdArr[i]);
       if(lbStatus.indexOf('already') > -1) continue;
-      client.pushMessage(
+      await client.pushMessage(
         lineIdArr[i], 
         loginStatus
           .toLowerCase()

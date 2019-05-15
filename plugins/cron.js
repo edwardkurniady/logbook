@@ -24,7 +24,7 @@ module.exports = {
       },
       {
         name: 'logbookreminder',
-        time: '0 55 11 * * 1-5',
+        time: '0 57 11 * * 1-5',
         timezone: 'Asia/Jakarta',
         request: {
           method: 'GET',
