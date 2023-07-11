@@ -16,4 +16,4 @@ This was a LINE Messenger chat bot intended specifically to help Computer Scienc
 - Enable seamless submission of students' logbooks directly from the LINE Messenger app.
 - Timely reminders for users at 9pm if their daily logbook hasn't been submitted.
 - Automatically fills logbook on weekends with 'OFF'.
-- Ensure uninterrupted access to the logbook website by automatically resetting the cookie every hour (usernames and passwords are not stored).
+- Ensure uninterrupted access to the logbook website by automatically refreshing the cookie every hour (usernames and passwords are not stored).
