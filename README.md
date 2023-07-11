@@ -13,7 +13,7 @@ This was a LINE Messenger chat bot intended specifically to help final semester 
 
 <h2> Features </h2>
 
-- Seamless students' logbook filling directly from the LINE Messenger app.
-- Timely reminders for users at 9pm if their daily logbook remains hasn't been submitted.
+- Enable seamless submission of students' logbooks directly from the LINE Messenger app.
+- Timely reminders for users at 9pm if their daily logbook hasn't been submitted.
 - Automatically fills logbook on weekends with 'OFF'.
 - Ensure uninterrupted access to the logbook website by automatically resetting the cookie every hour (usernames and passwords are not stored).
