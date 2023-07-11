@@ -1,4 +1,4 @@
-<h1> Logbook Chat Bot</h1>
+<h1> Logbook LINE Bot </h1>
 
 
 <h2> Description </h2>
