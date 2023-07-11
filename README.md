@@ -3,7 +3,7 @@
 
 <h2> Description </h2>
 
-This was a LINE Messenger chat bot intended specifically to help final semester Computer Science students at Binus University in 2019. Its primary objective was to simplify the process of filling daily student logbooks (for tracking thesis progress).
+This was a LINE Messenger chat bot intended specifically to help Computer Science students at Binus University in 2019-2020 (when I was still an active student!). Its primary objective was to simplify the process of filling daily student logbooks.
 
 <h2> Tech Stack </h2>
 
